@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeaveManagementSystem.Data
 {
     public class LeaveAllocation : BaseEntity
     {
+        [Display (Name = "Number of Days")]
         public int NumberofDays { get; set; }
 
 
