@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LeaveManagementSystem.Data.LeaveType>
+﻿@model IEnumerable<LeaveManagementSystem.Models.LeaveTypeVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -43,10 +43,10 @@
                 @Html.DisplayFor(modelItem => item.DateModified)
             </td>*@
             <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a> &nbsp;
-                    <a asp-action="Details" asp-route-id="@item.Id" - class="btn btn-info"><i class="fas fa-info-circle"></i></a> &nbsp;
-                    <button data-id="@item.Id" class="btn btn-danger deleteBtn" type="button"><i class="far fa-trash-alt"></i></button>
-                    @*<button *data-id="@item.Id" class="btn btn-warning detailsBtn" type="button">Details</button>*@
+                <button data-id="@item.Id" class="btn btn-primary AllocateBtn" type="button">Allocate Leave</button>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a> &nbsp;
+                <a asp-action="Details" asp-route-id="@item.Id" - class="btn btn-info"><i class="fas fa-info-circle"></i></a> &nbsp;
+                <button data-id="@item.Id" class="btn btn-danger deleteBtn" type="button"><i class="far fa-trash-alt"></i></button>
             </td>
         </tr>
 }
@@ -57,10 +57,13 @@
     <input type="hidden" id="leaveTypeId" name="Id" />
 </form>
 
+<form id="allocationForm" asp-action="AllocateLeave">
+    <input type="hidden" id="leaveTypeAllocate" name="Id" />
+</form>
+
 @section Scripts{
     <script>
         $(function () {
-            $('.table').DataTable();
             $('.deleteBtn').click(function (e) {
                 swal({
                     title: "Are you sure?",
@@ -74,6 +77,23 @@
                         var id = btn.data("id");
                         $('#leaveTypeId').val(id);
                         $('#deleteFrom').submit();
+                    }
+                });
+            });
+
+            $('.AllocateBtn').click(function (e) {
+                swal({
+                    title: "Are you sure?",
+                    text: "Are you sure you want to allocate this leave to all employee?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                    if (confirm) {
+                        var btn = $(this);
+                        var id = btn.data("id");
+                        $('#leaveTypeAllocate').val(id);
+                        $('#allocationForm').submit();
                     }
                 });
             });
